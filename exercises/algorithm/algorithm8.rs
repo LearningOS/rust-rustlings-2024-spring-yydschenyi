@@ -2,7 +2,6 @@
 	queue
 	This question requires you to use queues to implement the functionality of the stac
 */
-// I AM NOT DONE
 
 #[derive(Debug)]
 pub struct Queue<T> {
@@ -24,14 +23,14 @@ impl<T> Queue<T> {
         if !self.elements.is_empty() {
             Ok(self.elements.remove(0usize))
         } else {
-            Err("Queue is empty")
+            Err("Stack is empty")
         }
     }
 
     pub fn peek(&self) -> Result<&T, &str> {
         match self.elements.first() {
             Some(value) => Ok(value),
-            None => Err("Queue is empty"),
+            None => Err("Stack is empty"),
         }
     }
 
@@ -61,21 +60,22 @@ pub struct myStack<T>
 impl<T> myStack<T> {
     pub fn new() -> Self {
         Self {
-			//TODO
 			q1:Queue::<T>::new(),
 			q2:Queue::<T>::new()
         }
     }
     pub fn push(&mut self, elem: T) {
-        //TODO
+        self.q1.enqueue(elem);
+        while let Ok(value) = self.q2.dequeue() {
+            self.q1.enqueue(value);
+        }
+        std::mem::swap(&mut self.q1, &mut self.q2);
     }
     pub fn pop(&mut self) -> Result<T, &str> {
-        //TODO
-		Err("Stack is empty")
+        self.q2.dequeue()
     }
     pub fn is_empty(&self) -> bool {
-		//TODO
-        true
+        self.q2.is_empty()
     }
 }
 
